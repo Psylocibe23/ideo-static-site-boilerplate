@@ -1,0 +1,35 @@
+/* General layout */
+
+section {
+  width: 100%;
+  display: block;
+  position: relative;
+  @include clearfix();
+}
+
+#page-wrap {
+  width: 100%;
+  min-height: 100%;
+  @include clearfix();
+}
+
+.l-content {
+  width: $main-max-width;
+  margin: 0 auto;
+  @include clearfix();
+  @include mq-min($large) {
+    width: $main-max-width_large;
+  }
+  @include mq-max($desk) {
+    width: 95%;
+  }
+}
+
+.l-inner-container {
+  width: 100%;
+  position: relative;
+  @include clearfix();
+}
+
+@import "utils";
+@import "print";

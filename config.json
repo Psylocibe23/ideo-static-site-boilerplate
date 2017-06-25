@@ -1,0 +1,22 @@
+{
+  "port": "9000",
+  "notify": false,
+  "base_dir": "./src",
+  "src_folder": ["./src/**/*", "!./src/img/original", "!./src/templates{,/**}", "!./src/data{,/**}"],
+  "dist_folder": "./dist/",
+  "del_folder": "./dist",
+  "templates_src": "./src/templates/pages/*.pug",
+  "templates_dest": "./src/",
+  "sass_src": "./src/css/**/*.scss",
+  "sass_dest": "./src/css",
+  "autoprefixer_options": {
+    "browsers": ["last 3 versions", "ie >= 9", "and_chr >= 2.3"]
+  },
+  "js_src": ["./src/js/vendor/**/*.js", "./src/js/build/**/*.js"],
+  "js_build_src": "./src/js/build/**/*.js",
+  "js_vendor_src": "./src/js/vendor/**/*.js",
+  "js_file_name": "application.js",
+  "js_dest": "./src/js",
+  "img_src": "./src/img/original/*",
+  "img_dest": "./src/img/"
+}
