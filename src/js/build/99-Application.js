@@ -1,25 +1,24 @@
-const Application = (function() {
-  'use strict';
+/* global Util */
 
+const Application = (function () {
   const init = function init() {
-    document.documentElement.className = 'js';
+    document.documentElement.className = 'js'
     document.addEventListener('DOMContentLoaded', () => {
-      Util.init();
+      Util.init()
 
       window.addEventListener('resize', Util.debounce(() => {
-        console.log('resizing');
-      }, 200));
-    });
+        console.log('resizing')
+      }, 200))
+    })
 
     window.addEventListener('load', () => {
 
-    });
-  };
+    })
+  }
 
   return {
-    start: init
-  };
+    start: init,
+  }
+}())
 
-}());
-
-Application.start();
+Application.start()
