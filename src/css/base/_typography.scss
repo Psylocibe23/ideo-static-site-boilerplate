@@ -77,13 +77,6 @@ p {
   margin-bottom: emRhythm($base-line-multi);
   padding-top: 0;
   padding-bottom: 0;
-  //max-width: emRhythm(96);
-
-  @media only screen and(min-width: 43.75em) {
-    @if $paragraph-justify {
-      text-align: justify;
-    }
-  }
 }
 
 small, .small {
@@ -118,11 +111,6 @@ ol, ul, dl {
   margin-left: emRhythm(4);
   padding-top: 0;
   padding-bottom: 0;
-  &.no_list {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-  }
 }
 
 ul ul, ol ol, dl dl {
