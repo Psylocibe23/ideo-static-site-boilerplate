@@ -61,6 +61,7 @@
     "gulp-util": "^3.0.8",
     "merge2": "^1.0.3",
     "run-sequence": "^1.2.2",
+    "stylelint-config-standard": "^17.0.0",
     "svgo": "^0.7.2",
     "yargs": "^6.6.0"
   },

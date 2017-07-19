@@ -6,9 +6,9 @@ const Application = (function () {
     document.addEventListener('DOMContentLoaded', () => {
       Util.init()
 
-      window.addEventListener('resize', Util.debounce(() => {
+      window.addEventListener('resize', () => {
         console.log('resizing')
-      }, 200))
+      }, 200)
     })
 
     window.addEventListener('load', () => {

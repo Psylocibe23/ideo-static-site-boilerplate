@@ -1,8 +1,3 @@
-@import "jeet/index";
-@import "config";
-@import "helpers";
-@import "reset";
-
 /* BASE */
 
 * {
@@ -60,6 +55,13 @@ img::selection {
   background: transparent;
 }
 
+main, section {
+  width: 100%;
+  display: block;
+  position: relative;
+  @include clearfix();
+}
+
 // CSS to JS Breakpoint Bridge
 @if settings('set-mq-signature') {
   body:after {
@@ -80,7 +82,3 @@ img::selection {
     }
   }
 }
-
-@import "typography";
-@import "media";
-@import "animations";

@@ -153,29 +153,3 @@ a {
   text-decoration: none;
 }
 
-@if settings('minor-typo') {
-
-  // Code
-  tt, code {
-    font-family: $font-family-monospace;
-    font-size: em(12px);
-  }
-
-  pre {
-    margin-top: 0;
-    margin-bottom: 0;
-    color: $text-color;
-    word-break: break-all;
-    word-wrap: break-word;
-    font-family: $font-family-monospace;
-    tab-size: 2;
-    > code {
-      padding: 0;
-      font-size: inherit;
-      color: inherit;
-      white-space: pre-wrap;
-      background-color: transparent;
-      border-radius: 0;
-    }
-  }
-}
