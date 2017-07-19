@@ -1,6 +1,6 @@
 {
   "name": "ideo-static-site-boilerplate",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "description": "A Generic boilerplate for generic static websites.",
   "main": "gulpfile.babel.js",
   "engines": {
