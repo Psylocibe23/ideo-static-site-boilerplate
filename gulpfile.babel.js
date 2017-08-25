@@ -13,10 +13,19 @@ import runSequence from 'run-sequence'
 import merge from 'merge2'
 import { argv } from 'yargs'
 import config from './config.json'
-// import pkg from './package.json'
+import pkg from './package.json'
 
 const $ = gulpLoadPlugins()
 const reload = browserSync.reload
+
+const banner = `
+/**
+ * @project:  ${pkg.name}
+ * @author:   ${pkg.author} (@${pkg.author})
+ * Copyright (c) ${(new Date()).getFullYear()} ${pkg.author}
+ * Released under the ${pkg.license} license
+*/
+`
 
 // List all tasks and subtasks
 gulp.task('help', $.taskListing)
@@ -39,6 +48,7 @@ gulp.task('styles', () => gulp.src(config.sass_src)
   .pipe($.autoprefixer(config.autoprefixer_options))
   .pipe($.if(!argv.pretty, $.cssnano()))
   .pipe($.size({ title: 'Styles' }))
+  .pipe($.header(banner, { pkg }))
   .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
   .pipe(gulp.dest(config.sass_dest)))
 
@@ -55,6 +65,7 @@ gulp.task('scripts', () => merge(
   .pipe($.if(argv.pretty, $.sourcemaps.init()))
   .pipe($.concat(config.js_file_name))
   .pipe($.if(!argv.pretty, $.uglify({ preserveComments: 'some' })))
+  .pipe($.header(banner, { pkg }))
   .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
   .pipe($.size({ title: 'Scripts' }))
   .pipe(gulp.dest(config.js_dest)))
