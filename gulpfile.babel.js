@@ -22,42 +22,47 @@ const reload = browserSync.reload
 gulp.task('help', $.taskListing)
 
 gulp.task('templates', () => gulp.src(config.templates_src)
-    .pipe($.pug({
-      pretty: argv.pretty,
-    }))
-    .pipe(gulp.dest(config.templates_dest)))
+  .pipe($.plumber())
+  .pipe($.pug({
+    pretty: argv.pretty,
+  }))
+  .pipe(gulp.dest(config.templates_dest)))
 
 // Sass compile, autprefixer, minify, sourcemaps
 gulp.task('styles', () => gulp.src(config.sass_src)
-    .pipe($.if(argv.pretty, $.sourcemaps.init()))
-    .pipe($.sass({
-      precision: 10,
-      includePaths: ['.src/css/'],
-    }).on('error', $.sass.logError))
-    .pipe($.autoprefixer(config.autoprefixer_options))
-    .pipe($.if(!argv.pretty, $.cssnano()))
-    .pipe($.size({ title: 'Styles' }))
-    .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
-    .pipe(gulp.dest(config.sass_dest)))
+  .pipe($.plumber())
+  .pipe($.if(argv.pretty, $.sourcemaps.init()))
+  .pipe($.sass({
+    precision: 10,
+    includePaths: ['.src/css/'],
+  }).on('error', $.sass.logError))
+  .pipe($.autoprefixer(config.autoprefixer_options))
+  .pipe($.if(!argv.pretty, $.cssnano()))
+  .pipe($.size({ title: 'Styles' }))
+  .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
+  .pipe(gulp.dest(config.sass_dest)))
 
 // Concat, babelify, sourcemaps and minify js files
 gulp.task('scripts', () => merge(
-    gulp.src(config.js_vendor_src)
-      .pipe($.size({ title: 'Vendor scripts' })),
-    gulp.src(config.js_build_src)
-      .pipe($.babel())
-      .pipe($.size({ title: 'Build scripts' })),
-  )
-    .pipe($.if(argv.pretty, $.sourcemaps.init()))
-    .pipe($.concat(config.js_file_name))
-    .pipe($.if(!argv.pretty, $.uglify({ preserveComments: 'some' })))
-    .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
-    .pipe($.size({ title: 'Scripts' }))
-    .pipe(gulp.dest(config.js_dest)))
+  gulp.src(config.js_vendor_src)
+    .pipe($.plumber())
+    .pipe($.size({ title: 'Vendor scripts' })),
+  gulp.src(config.js_build_src)
+    .pipe($.plumber())
+    .pipe($.babel())
+    .pipe($.size({ title: 'Build scripts' })),
+)
+  .pipe($.if(argv.pretty, $.sourcemaps.init()))
+  .pipe($.concat(config.js_file_name))
+  .pipe($.if(!argv.pretty, $.uglify({ preserveComments: 'some' })))
+  .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
+  .pipe($.size({ title: 'Scripts' }))
+  .pipe(gulp.dest(config.js_dest)))
 
 // Optimize images
 gulp.task('img', () =>
   gulp.src(config.img_src)
+    .pipe($.plumber())
     .pipe($.newer(config.img_dest))
     .pipe($.imagemin({
       progressive: true,
@@ -80,8 +85,9 @@ gulp.task('clean', () => del.sync([
 
 // Copy the content from src/ to dist/
 gulp.task('copy', ['clean'], () => gulp.src(config.src_folder)
-    .pipe($.size({ title: 'Copying ./src content in ./dist' }))
-    .pipe(gulp.dest(config.dist_folder)))
+  .pipe($.plumber())
+  .pipe($.size({ title: 'Copying ./src content in ./dist' }))
+  .pipe(gulp.dest(config.dist_folder)))
 
 // Serve the content, live reload with browsersync
 gulp.task('serve', () => {

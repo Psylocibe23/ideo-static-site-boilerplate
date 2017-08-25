@@ -65,5 +65,7 @@
     "svgo": "^0.7.2",
     "yargs": "^6.6.0"
   },
-  "dependencies": {}
+  "dependencies": {
+    "gulp-plumber": "^1.1.0"
+  }
 }
