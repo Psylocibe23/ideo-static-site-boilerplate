@@ -1,12 +1,12 @@
 // Project config map
 
 $_settings: (
-  'use-opentype'       : false,
-  'use-icon-fonts'     : false,
-  'use-font-smooth'    : true,
-  'form-controls'      : false,
-  'set-mq-signature'   : true,
-  'sticky-footer'      : false
+  'use-opentype': false,
+  'use-icon-fonts': false,
+  'use-font-smooth': true,
+  'form-controls': false,
+  'set-mq-signature': true,
+  'sticky-footer': false
 );
 
 // Retrieve data from the settings map
@@ -17,39 +17,35 @@ $_settings: (
 // COLORS
 
 //Project-colors
-$black        :  #000000;
-$white        :  #ffffff;
-$mine-shaft   :  #333333;
+$black:  #000000;
+$white:  #ffffff;
 
 // Social-brand colors
-$fb           :  #3b5998;
-$twitter      :  #55acee;
-$gplus        :  #dd4b39;
-$linkedin     :  #007bb6;
-$instagram    :  #517fa4;
-$pinterest    :  #cb2027;
-$flickr-1     :  #ff0084;
-$flickr-2     :  #0063dc;
-$tumblr       :  #32506d;
-$dribble      :  #ea4c89;
-$behance      :  #1769ff;
-$vine         :  #00bf8f;
-$spotify      :  #2ebd59;
-$tripadvisor  :  #589442;
-$yahoo        :  #400191;
-$youtube      :  #cd201f;
+$fb:  #3b5998;
+$twitter:  #55acee;
+$gplus:  #dd4b39;
+$linkedin:  #007bb6;
+$instagram:  #517fa4;
+$pinterest:  #cb2027;
+$tumblr:  #32506d;
+$dribble:  #ea4c89;
+$behance:  #1769ff;
+$spotify:  #2ebd59;
+$tripadvisor:  #589442;
+$yahoo:  #400191;
+$youtube:  #cd201f;
 
 // TYPOGRAPHY
 
-$font-family-sans-serif : -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-$font-family-serif      : "Palatino Linotype", "Times New Roman", serif !default;
-$font-family-monospace  : "Consolas", "Monaco", "Bitstream Vera Sans Mono", "Courier", monospace !default;
-$font-stack             : $font-family-sans-serif !default;
-$font-size-base         : 1em !default;
-$em-base                : 16px;
-$line-base              : 1.5 !default;
-$font-sans              : $font-family-sans-serif;
-$font-serif             : $font-family-serif;
+$font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+$font-family-serif: "Palatino Linotype", "Times New Roman", serif !default;
+$font-family-monospace: "Consolas", "Monaco", "Bitstream Vera Sans Mono", "Courier", monospace !default;
+$font-stack: $font-family-sans-serif !default;
+$font-size-base: 1em !default;
+$em-base: 16px;
+$line-base: 1.5 !default;
+$font-sans: $font-family-sans-serif;
+$font-serif: $font-family-serif;
 
 // The vertical grid unit. Margin, padding, and line-height are set to multiples
 // of this value. This is the value that determines the baseline for our vertical
@@ -108,16 +104,11 @@ $link-color       : $black !default;
 $selection-color  : $body-bg !default;
 $selection-bg     : $text-color !default;
 
-// MODULES
-
-
-
 // VIEWS
 $container-max-widths: (
   main: 1000px,
   large: 1170px
 ) !default;
-
 
 // The Spaces map is great for maintaining consistency in your development.
 $space-base: 4px !default;
@@ -187,9 +178,10 @@ $mq-breakpoints: (
 
 // Z-Layers Map
 $z-layers: (
-  god       :  999,
-  highest   :  100,
-  above     :  2,
-  default   :  1,
-  behind    :  -1
+  god:  999,
+  highest:  100,
+  nav: 50,
+  above:  2,
+  default:  1,
+  behind:  -1
 );
