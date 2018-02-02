@@ -10,7 +10,12 @@ import gulpLoadPlugins from 'gulp-load-plugins'
 import browserSync from 'browser-sync'
 import del from 'del'
 import runSequence from 'run-sequence'
-import merge from 'merge2'
+import watchify from 'watchify'
+import browserify from 'browserify'
+import babelify from 'babelify'
+import source from 'vinyl-source-stream'
+import buffer from 'vinyl-buffer'
+import assign from 'lodash.assign'
 import { argv } from 'yargs'
 import config from './config.json'
 import pkg from './package.json'
@@ -23,7 +28,6 @@ const banner = `
  * @project:  ${pkg.name}
  * @author:   ${pkg.author} (@${pkg.author})
  * Copyright (c) ${(new Date()).getFullYear()} ${pkg.author}
- * Released under the ${pkg.license} license
 */
 `
 
@@ -52,23 +56,40 @@ gulp.task('styles', () => gulp.src(config.sass_src)
   .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
   .pipe(gulp.dest(config.sass_dest)))
 
-// Concat, babelify, sourcemaps and minify js files
-gulp.task('scripts', () => merge(
-  gulp.src(config.js_vendor_src)
+// custom browserify options
+const customOpts = {
+  entries: [config.js_src],
+  debug: argv.pretty,
+  cache: {},
+  packageCache: {},
+  transform: [
+    babelify.configure({
+      presets: ['es2015'],
+    }),
+  ],
+}
+const opts = assign({}, watchify.args, customOpts)
+const b = watchify(browserify(opts))
+
+// add transformations here
+b.transform(babelify)
+
+function bundle() {
+  return b.bundle()
+    // log errors if they happen
     .pipe($.plumber())
-    .pipe($.size({ title: 'Vendor scripts' })),
-  gulp.src(config.js_build_src)
-    .pipe($.plumber())
-    .pipe($.babel())
-    .pipe($.size({ title: 'Build scripts' })),
-)
-  .pipe($.if(argv.pretty, $.sourcemaps.init()))
-  .pipe($.concat(config.js_file_name))
-  .pipe($.if(!argv.pretty, $.uglify({ preserveComments: 'some' })))
-  .pipe($.header(banner, { pkg }))
-  .pipe($.if(argv.pretty, $.sourcemaps.write('./')))
-  .pipe($.size({ title: 'Scripts' }))
-  .pipe(gulp.dest(config.js_dest)))
+    .pipe(source(config.js_file_name))
+    .pipe(buffer())
+    .pipe($.if(argv.pretty, $.sourcemaps.init({ loadMaps: true })))
+    .pipe($.if(!argv.pretty, $.uglify({ preserveComments: 'some' })))
+    .pipe($.header(banner, { pkg }))
+    .pipe($.if(argv.pretty, $.sourcemaps.write('./'))) // writes .map file
+    .pipe(gulp.dest(config.js_dest))
+    .pipe(reload({ stream: true }))
+}
+
+gulp.task('scripts', bundle)
+b.on('update', bundle)
 
 // Optimize images
 gulp.task('img', () =>
@@ -82,7 +103,7 @@ gulp.task('img', () =>
       svgoPlugins: [{
         removeViewBox: false,
         removeUselessStrokeAndFill: false,
-        removeEmptyAttrs: true,
+        removeEmptyAttrs: false,
       }],
     }))
     .pipe($.size({ title: 'img' }))
@@ -118,8 +139,6 @@ gulp.task('serve', () => {
 
     gulp.watch(['./src/templates/**/*.pug'], ['templates', reload])
     gulp.watch(['./src/css/**/*.scss'], ['styles', reload])
-    gulp.watch(['./src/js/vendor/*.js'], ['scripts', reload])
-    gulp.watch(['./src/js/build/*.js'], ['scripts', reload])
     gulp.watch(['./src/img/**/*'], reload)
   })
 })
