@@ -5,7 +5,7 @@
   "src_folder": ["./src/**/*", "!./src/img/original", "!./src/templates{,/**}", "!./src/data{,/**}"],
   "dist_folder": "./dist/",
   "del_folder": "./dist",
-  "templates_src": "./src/templates/pages/*.pug",
+  "templates_src": "./src/templates/pages/*.ejs",
   "templates_dest": "./src/",
   "sass_src": "./src/css/**/*.scss",
   "sass_dest": "./src/css",

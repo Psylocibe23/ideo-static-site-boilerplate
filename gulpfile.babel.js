@@ -1,7 +1,7 @@
 /**
  * ideo-static-site-boilerplate
  *
- * Copyright 2017 ideonetwork (@ideonetwork)
+ * Copyright 2018 ideonetwork (@ideonetwork)
  * Released under the MIT license (http://mit-license.org)
 */
 
@@ -34,12 +34,26 @@ const banner = `
 // List all tasks and subtasks
 gulp.task('help', $.taskListing)
 
-gulp.task('templates', () => gulp.src(config.templates_src)
-  .pipe($.plumber())
-  .pipe($.pug({
-    pretty: argv.pretty,
-  }))
-  .pipe(gulp.dest(config.templates_dest)))
+gulp.task('templates', () => {
+  const stream = gulp.src(config.templates_src)
+
+  if (argv.pretty) {
+    stream
+      .pipe($.plumber())
+      .pipe($.ejs({}, {}, {
+        ext: '.html',
+      }))
+      .pipe(gulp.dest(config.templates_dest))
+  } else {
+    stream
+      .pipe($.plumber())
+      .pipe($.ejs({}, {}, {
+        ext: '.html',
+      }))
+      .pipe($.htmlmin({ collapseWhitespace: true }))
+      .pipe(gulp.dest(config.templates_dest))
+  }
+})
 
 // Sass compile, autprefixer, minify, sourcemaps
 gulp.task('styles', () => gulp.src(config.sass_src)
@@ -137,7 +151,7 @@ gulp.task('serve', () => {
       port: config.port,
     })
 
-    gulp.watch(['./src/templates/**/*.pug'], ['templates', reload])
+    gulp.watch(['./src/templates/**/*.ejs'], ['templates', reload])
     gulp.watch(['./src/css/**/*.scss'], ['styles', reload])
     gulp.watch(['./src/img/**/*'], reload)
   })
